@@ -2,11 +2,22 @@ import fs from "fs";
 
 let matchData = fs.readFileSync("../../public/output/match.json", "utf-8");
 matchData = JSON.parse(matchData);
-console.log(matchData);
+
 let winMatches= {};
+matchData.map((obj)=>{
+    if(winMatches[obj.winner]==undefined)
+    { 
+        winMatches[obj.winner]={};
+    }
+    if(winMatches[obj.winner][obj.season]==undefined){
 
-
-// fs.writeFileSync(
-//   "../../public/output/matchesPerYear.json",
-//   JSON.stringify(answer, null, 2)
-// );
+        winMatches[obj.winner][obj.season]=0;
+    }
+    
+   winMatches[obj.winner][obj.season]++;
+});
+console.log(winMatches);
+fs.writeFileSync(
+  "../../public/output/matchesWinPerYear.json",
+  JSON.stringify(winMatches, null, 2)
+);
