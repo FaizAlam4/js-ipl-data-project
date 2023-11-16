@@ -1,8 +1,8 @@
 import fs from "fs";
-let deliveryData = fs.readFileSync("../../data/delivery.json", "utf-8");
+let deliveryData = fs.readFileSync("../data/delivery.json", "utf-8");
 deliveryData = JSON.parse(deliveryData);
 
-let matchData = fs.readFileSync("../../data/match.json", "utf-8");
+let matchData = fs.readFileSync("../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 
 matchData = matchData.filter((obj) => {
@@ -66,6 +66,6 @@ let ans = economy.filter((ele) => {
 console.log(ans);
 
 fs.writeFileSync(
-  "../../public/output/economicalBowlers.json",
+  "../public/output/economicalBowlers.json",
   JSON.stringify(Object.fromEntries(ans), null, 2)
 );

@@ -1,12 +1,12 @@
 import fs from "fs";
 
 let deliveryData = fs.readFileSync(
-  "../../public/output/delivery.json",
+  "../data/delivery.json",
   "utf-8"
 );
 deliveryData = JSON.parse(deliveryData);
 
-let matchData = fs.readFileSync("../../public/output/match.json", "utf-8");
+let matchData = fs.readFileSync("../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 
 let answer = {};
@@ -28,6 +28,6 @@ deliveryData.map((obj) => {
 });
 console.log(answer);
 fs.writeFileSync(
-  "../../public/output/extraRunsConcede.json",
+  "../public/output/extraRunsConcede.json",
   JSON.stringify(answer, null, 2)
 );

@@ -1,6 +1,6 @@
 import fs from "fs";
 
-let matchData = fs.readFileSync("../../data/match.json", "utf-8");
+let matchData = fs.readFileSync("../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 let answer = {};
 
@@ -12,8 +12,8 @@ matchData.forEach((obj) => {
   answer[obj.season]++;
 });
 
-console.log(answer);
+// console.log(answer);
 fs.writeFileSync(
-  "../../public/output/matchesPerYear.json",
+  "../public/output/matchesPerYear.json",
   JSON.stringify(answer, null, 2)
 );

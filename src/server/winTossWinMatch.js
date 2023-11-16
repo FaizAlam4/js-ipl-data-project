@@ -1,6 +1,6 @@
 import fs from "fs";
 
-let matchData = fs.readFileSync("../../data/match.json", "utf-8");
+let matchData = fs.readFileSync("../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 let result = {};
 matchData.forEach((obj) => {
@@ -15,6 +15,6 @@ matchData.forEach((obj) => {
 
 console.log(result);
 fs.writeFileSync(
-  "../../public/output/winTossWinMatch.json",
+  "../public/output/winTossWinMatch.json",
   JSON.stringify(result, null, 2)
 );

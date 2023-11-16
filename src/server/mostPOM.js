@@ -1,8 +1,8 @@
 import fs from "fs";
-let deliveryData = fs.readFileSync("../../data/delivery.json", "utf-8");
+let deliveryData = fs.readFileSync("../data/delivery.json", "utf-8");
 deliveryData = JSON.parse(deliveryData);
 
-let matchData = fs.readFileSync("../../data/match.json", "utf-8");
+let matchData = fs.readFileSync("../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 let myResult = {};
 let years = [];
@@ -49,7 +49,7 @@ for(let key of myRes){
 console.log(newResult);
 
 fs.writeFileSync(
-  "../../public/output/mostPOM.json",
+  "../public/output/mostPOM.json",
   JSON.stringify(newResult, null, 2)
 );
 
