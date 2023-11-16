@@ -18,13 +18,10 @@ let set = new Set(matchData);
 let result = {};
 let result1 = {};
 
-let balls = 0,
-  runsGiven = 0,
-  overs = 0;
+let runsGiven = 0;
 
 deliveryData.forEach((obj) => {
   if (set.has(obj.match_id)) {
-    balls = parseInt(obj.ball);
     runsGiven = parseInt(obj.total_runs);
 
     if (result[obj.bowler] == undefined) {
@@ -35,27 +32,40 @@ deliveryData.forEach((obj) => {
     }
 
     result[obj.bowler] += runsGiven;
-    result1[obj.bowler] += balls;
+    result1[obj.bowler] += 1;
   }
 });
 // console.log(result1);
 let result2 = {};
-let myarray=[];
 deliveryData.forEach((obj) => {
   if (set.has(obj.match_id)) {
     if (result2[obj.bowler] == undefined) {
       result2[obj.bowler] = 0;
     }
     if (result2[obj.bowler] == 0) {
-      result2[obj.bowler] = ((result[obj.bowler] / result1[obj.bowler])*6).toFixed(
-        2
-      );
-      myarray.push(result2[obj.bowler]);
+      result2[obj.bowler] = (
+        (result[obj.bowler] / result1[obj.bowler]) *
+        6
+      ).toFixed(2);
     }
   }
 });
-// console.log(myarray.sort());
-// fs.writeFileSync(
-//   "../../public/output/economicalBowler.json",
-//   JSON.stringify(result2, null, 2)
-// );
+let economy = Object.entries(result2);
+
+economy.sort((a, b) => {
+  return a[1] - b[1];
+});
+let num = 0;
+let ans = economy.filter((ele) => {
+  num++;
+  if (num > 10) {
+    return false;
+  }
+  return true;
+});
+console.log(ans);
+
+fs.writeFileSync(
+  "../../public/output/economicalBowlers.json",
+  JSON.stringify(Object.fromEntries(ans), null, 2)
+);

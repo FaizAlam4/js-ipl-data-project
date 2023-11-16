@@ -17,8 +17,6 @@ matchData.forEach((obj) => {
 
   myResult[obj.season][obj.player_of_match]++;
 });
-// console.log(myResult);
-
 
 let newResult={};
 let maxNum=0;
@@ -49,4 +47,10 @@ for(let key of myRes){
 }
 
 console.log(newResult);
+
+fs.writeFileSync(
+  "../../public/output/mostPOM.json",
+  JSON.stringify(newResult, null, 2)
+);
+
 
