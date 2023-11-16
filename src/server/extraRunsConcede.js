@@ -5,6 +5,7 @@ let deliveryData = fs.readFileSync(
   "utf-8"
 );
 deliveryData = JSON.parse(deliveryData);
+
 let matchData = fs.readFileSync("../../public/output/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 

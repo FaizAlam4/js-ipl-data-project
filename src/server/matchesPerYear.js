@@ -1,10 +1,10 @@
 import fs from "fs";
 
-let matchData = fs.readFileSync("../../public/output/match.json", "utf-8");
+let matchData = fs.readFileSync("../../data/match.json", "utf-8");
 matchData = JSON.parse(matchData);
 let answer = {};
 
-matchData.map((obj) => {
+matchData.forEach((obj) => {
   if (answer[obj.season] == undefined) {
     answer[obj.season] = 0;
   }
