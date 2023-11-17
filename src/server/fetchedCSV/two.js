@@ -2,8 +2,8 @@
 import csvtojson from "csvtojson";
 import fs from 'fs';
 const csvFilePath =
-  "/home/faiz/Documents/mb/Javascript/IPL/src/data/matches.csv";
-const jsonFilePath="/home/faiz/Documents/mb/Javascript/IPL/src/data/match.json"
+  "/home/faiz/Documents/mb/MB_Javascript/IPL/src/data/matches.csv";
+const jsonFilePath="/home/faiz/Documents/mb/MB_Javascript/IPL/src/data/match.json"
 
 csvtojson()
   .fromFile(csvFilePath)
