@@ -3,16 +3,16 @@ import fs from "fs";
 export let matchesPerYear = (matchPath, deliveryPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
-  let answer = {};
 
-  matchData.forEach((obj) => {
-    if (answer[obj.season] == undefined) {
-      answer[obj.season] = 0;
+  let numberOfMatches = matchData.reduce((numberOfMatches, object) => {
+    if (numberOfMatches[object.season] == undefined) {
+      numberOfMatches[object.season] = 0;
     }
+    numberOfMatches[object.season]++;
 
-    answer[obj.season]++;
-  });
+    return numberOfMatches;
+  }, {});
 
-  // console.log(answer);
-  fs.writeFileSync(outputPath, JSON.stringify(answer, null, 2));
+  console.log(numberOfMatches);
+  fs.writeFileSync(outputPath, JSON.stringify(numberOfMatches, null, 2));
 };

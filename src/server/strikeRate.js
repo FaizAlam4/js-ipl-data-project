@@ -1,68 +1,84 @@
 import fs from "fs";
 
-export let strikeRate = (matchPath, deliveryPath, outputPath) => {
+export let strikeRate = (matchPath, deliveryPath, argument, outputPath) => {
   let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
   deliveryData = JSON.parse(deliveryData);
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
 
-  let myResult = {};
-  matchData.forEach((obj) => {
-    if (myResult[obj.season] == undefined) {
-      myResult[obj.season] = [];
+  let batsmanId = matchData.reduce((batsmanId, object) => {
+    if (batsmanId[object.season] == undefined) {
+      batsmanId[object.season] = [];
     }
-    myResult[obj.season].push(obj.id);
-  });
-  let totRuns = {},
-    ballFaced = {};
-  for (let key in myResult) {
-    let set = new Set(myResult[key]);
+    batsmanId[object.season].push(object.id);
 
-    deliveryData.forEach((obj) => {
+    return batsmanId;
+  }, {});
+
+  let myObject = {},
+    myEconomy = {};
+
+  for (let key in batsmanId) {
+    let set = new Set(batsmanId[key]);
+
+    let accumulator = deliveryData.reduce((accumulator, obj) => {
       if (set.has(obj.match_id)) {
-        if (totRuns[key] == undefined) {
-          totRuns[key] = {};
+        if (accumulator[obj.batsman] == undefined) {
+          accumulator[obj.batsman] = {};
         }
-        if (totRuns[key][obj.batsman] == undefined) {
-          totRuns[key][obj.batsman] = 0;
+        if (accumulator[obj.batsman]["runs"] == undefined) {
+          accumulator[obj.batsman]["runs"] = 0;
         }
-
-        totRuns[key][obj.batsman] += parseInt(obj.batsman_runs);
-
-        if (ballFaced[key] == undefined) {
-          ballFaced[key] = {};
+        if (accumulator[obj.batsman]["ballFaced"] == undefined) {
+          accumulator[obj.batsman]["ballFaced"] = 0;
         }
-        if (ballFaced[key][obj.batsman] == undefined) {
-          ballFaced[key][obj.batsman] = 0;
-        }
+        accumulator[obj.batsman]["runs"] += parseInt(obj.batsman_runs);
         if (obj.wide_runs == 0 && obj.noball_runs == 0) {
-          ballFaced[key][obj.batsman] += 1;
+          accumulator[obj.batsman]["ballFaced"]++;
         }
       }
-    });
+
+      return accumulator;
+    }, {});
+    if (myEconomy[key] == undefined) {
+      myEconomy[key];
+    }
+
+    if (myObject[key] == undefined) {
+      myObject[key] = {};
+    }
+
+    for (let innerKey in accumulator) {
+      accumulator[innerKey] =
+        (accumulator[innerKey]["runs"] * 100) /
+        accumulator[innerKey]["ballFaced"].toFixed(2);
+    }
+    myObject[key] = accumulator;
   }
+  let answer = {};
+  // console.log(argument)
 
-  let finalAns = {};
-  for (let key in myResult) {
-    let set = new Set(myResult[key]);
-
-    deliveryData.forEach((obj) => {
-      if (set.has(obj.match_id)) {
-        if (finalAns[key] == undefined) {
-          finalAns[key] = {};
-        }
-        if (finalAns[key][obj.batsman] == undefined) {
-          finalAns[key][obj.batsman] = 0;
-        }
-        if (finalAns[key][obj.batsman] == 0) {
-          finalAns[key][obj.batsman] = (
-            (totRuns[key][obj.batsman] * 100) /
-            ballFaced[key][obj.batsman]
-          ).toFixed(2);
-        }
+  for (let season in myObject) {
+    if (myObject[season][argument]) {
+      if (answer[season] == undefined) {
+        answer[season] = {};
       }
-    });
+      if (answer[season][argument] == undefined) {
+        answer[season][argument] = "";
+      }
+      answer[season][argument] = myObject[season][argument];
+    } else {
+      if (answer[season] == undefined) {
+        answer[season] = {};
+      }
+      if (answer[season][argument] == undefined) {
+        answer[season][argument] = "";
+      }
+
+      answer[season][argument] = "Player didn't play this season!";
+    }
   }
-  console.log(finalAns);
-  fs.writeFileSync(outputPath, JSON.stringify(finalAns, null, 2));
+  console.log(answer);
+
+  fs.writeFileSync(outputPath, JSON.stringify(answer, null, 2));
 };

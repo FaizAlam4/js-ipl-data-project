@@ -7,70 +7,72 @@ export let economicalBowler = (matchPath, deliveryPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
 
-  matchData = matchData.filter((obj) => {
-    return obj.season == "2015";
-  });
-
   matchData = matchData.map((obj) => {
-    return obj.id;
+    if (obj.season == "2015") {
+      return obj.id;
+    }
   });
 
   let set = new Set(matchData);
 
   let result = {};
-  let result1 = {};
 
-  let runsGiven = 0;
-
-  deliveryData.forEach((obj) => {
+  result = deliveryData.reduce((acc, obj) => {
     if (set.has(obj.match_id)) {
-      runsGiven = parseInt(obj.total_runs);
-
-      if (result[obj.bowler] == undefined) {
-        result[obj.bowler] = 0;
+      if (acc[obj.bowler] == undefined) {
+        acc[obj.bowler] = {};
       }
-      if (result1[obj.bowler] == undefined) {
-        result1[obj.bowler] = 0;
+      if (acc[obj.bowler]["runs"] == undefined) {
+        acc[obj.bowler]["runs"] = 0;
       }
 
-      result[obj.bowler] += runsGiven;
+      if (acc[obj.bowler]["balls"] == undefined) {
+        acc[obj.bowler]["balls"] = 0;
+      }
+
       if (obj.noball_runs === "0" && obj.wide_runs === "0") {
-        result1[obj.bowler] += 1;
+        acc[obj.bowler]["balls"]++;
       }
-    }
-  });
-  // console.log(result1);
-  let result2 = {};
-  deliveryData.forEach((obj) => {
-    if (set.has(obj.match_id)) {
-      if (result2[obj.bowler] == undefined) {
-        result2[obj.bowler] = 0;
-      }
-      if (result2[obj.bowler] == 0) {
-        result2[obj.bowler] = (
-          (result[obj.bowler] / result1[obj.bowler]) *
-          6
-        ).toFixed(2);
-      }
-    }
-  });
-  let economy = Object.entries(result2);
 
-  economy.sort((a, b) => {
-    return a[1] - b[1];
+      acc[obj.bowler]["runs"] =
+        acc[obj.bowler]["runs"] +
+        parseInt(obj.total_runs) -
+        parseInt(obj.legbye_runs) -
+        parseInt(obj.bye_runs);
+    }
+    return acc;
+  }, {});
+
+  let newResult2 = {};
+
+  for (let key in result) {
+    if (newResult2[key] == undefined) {
+      newResult2[key] = {};
+    }
+    if (newResult2[key]["economy"] == undefined) {
+      newResult2[key]["economy"] = 0;
+    }
+    newResult2[key]["economy"] = Number(
+      ((result[key]["runs"] * 6) / result[key]["balls"]).toFixed(2)
+    );
+  }
+  newResult2 = Object.entries(newResult2);
+
+  newResult2 = newResult2.sort((element1, element2) => {
+    return element1[1]["economy"] - element2[1]["economy"];
   });
+
   let num = 0;
-  let ans = economy.filter((ele) => {
+  newResult2 = newResult2.filter((element) => {
     num++;
-    if (num > 10) {
+    if (num < 10) {
+      return true;
+    } else {
       return false;
     }
-    return true;
   });
-  console.log(ans);
 
-  fs.writeFileSync(
-    outputPath,
-    JSON.stringify(Object.fromEntries(ans), null, 2)
-  );
+  console.log(newResult2);
+  fs.writeFileSync(outputPath, JSON.stringify(newResult2, null, 2))
+
 };

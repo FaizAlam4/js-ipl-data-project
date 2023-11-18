@@ -1,51 +1,38 @@
 import fs from "fs";
 
 export let mostPOM = (matchPath, deliveryPath, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
   let myResult = {};
-  let years = [];
-  matchData.forEach((obj) => {
-    if (myResult[obj.season] == undefined) {
-      myResult[obj.season] = {};
-      years.push(obj.season);
-    }
-    if (myResult[obj.season][obj.player_of_match] == undefined) {
-      myResult[obj.season][obj.player_of_match] = 1;
-    }
 
-    myResult[obj.season][obj.player_of_match]++;
-  });
-
-  let newResult = {};
-  let maxNum = 0;
-  let myKey = "";
-  let myRes = Object.entries(myResult);
-  // console.log(myRes);
-  for (let key of myRes) {
-    for (let innerKey in key[1]) {
-      if (key[1][innerKey] > maxNum) {
-        maxNum = key[1][innerKey];
-        myKey = innerKey;
-      }
+  myResult = matchData.reduce((myResult, object) => {
+    if (myResult[object.season] == undefined) {
+      myResult[object.season] = {};
     }
-
-    if (newResult[key[0]] == undefined) {
-      newResult[key[0]] = {};
+    if (myResult[object.season][object.player_of_match] == undefined) {
+      myResult[object.season][object.player_of_match] = 1;
     }
-    if (newResult[key[0]][myKey] == undefined) {
-      newResult[key[0]][myKey] = 0;
-    }
+    myResult[object.season][object.player_of_match]++;
 
-    newResult[key[0]][myKey] = maxNum;
-    myKey = "";
-    maxNum = 0;
+    return myResult;
+  }, {});
+
+  let mostAwards = {};
+  for (let key in myResult) {
+    let myObject = myResult[key];
+    myObject = Object.entries(myObject);
+    myObject.sort((element1, element2) => {
+      return element2[1] - element1[1];
+    });
+    if (mostAwards[key] == undefined) {
+      mostAwards[key] = {};
+    }
+    if (mostAwards[key][myObject[0]] == undefined) {
+      mostAwards[key][myObject[0]] == 0;
+    }
+    mostAwards[key][myObject[0][0]] = myObject[0][1];
   }
+  console.log(mostAwards);
 
-  console.log(newResult);
-
-  fs.writeFileSync(outputPath, JSON.stringify(newResult, null, 2));
+  fs.writeFileSync(outputPath, JSON.stringify(mostAwards, null, 2));
 };

@@ -7,25 +7,33 @@ export let highestDismissal = (matchPath, deliveryPath, outputPath) => {
   // let matchData = fs.readFileSync(matchPath, "utf-8");
   // matchData = JSON.parse(matchData);
   let arr = {};
-  deliveryData.forEach((obj) => {
+  let acc=deliveryData.reduce((acc, obj) => {
     if (obj.player_dismissed != "") {
-      if (arr[obj.batsman] == undefined) {
-        arr[obj.batsman] = {};
+      if (acc[obj.batsman] == undefined) {
+        acc[obj.batsman] = {};
       }
 
-      if (arr[obj.batsman][obj.bowler] == undefined) {
-        arr[obj.batsman][obj.bowler] = 0;
+      if (acc[obj.batsman][obj.bowler] == undefined) {
+        acc[obj.batsman][obj.bowler] = 0;
       }
-      arr[obj.batsman][obj.bowler]++;
+      acc[obj.batsman][obj.bowler]++;
     }
+    return acc;
   });
-  
 
-  arr=Object.entries(arr);
-  console.log(arr)
-arr.map((element)=>{
-Object.entries(element[1])
-})
-  
+  let finalResult={};
+  acc = Object.entries(acc);
+  console.log(acc);
+  for(let element of acc){
+    let data=Object.entries(element[1]);
+    data.sort((a,b)=>{return a[1]-b[1]});
+    
+  }
+
+  // for(let key in )
+  // arr.map((element)=>{
+  // Object.entries(element[1])
+  // })
+
   // fs.writeFileSync(outputPath,JSON.stringify(arr,null,2));
 };

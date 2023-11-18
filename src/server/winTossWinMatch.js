@@ -5,14 +5,14 @@ export let winTossWinMatch = (matchPath, deliveryPath, outputPath) => {
   matchData = JSON.parse(matchData);
   let result = {};
 
-  result = matchData.reduce((acc, obj) => {
+  result = matchData.reduce((accumulator, obj) => {
     if (obj.winner == obj.toss_winner) {
-      if (acc[obj.winner] == undefined) {
-        acc[obj.winner] = 0;
+      if (accumulator[obj.winner] == undefined) {
+        accumulator[obj.winner] = 0;
       }
-      acc[obj.winner]++;
+      accumulator[obj.winner]++;
     }
-    return acc;
+    return accumulator;
   }, {});
 
   console.log(result);

@@ -4,24 +4,24 @@ export let superOver = (matchPath, deliveryPath, outputPath) => {
   let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
   deliveryData = JSON.parse(deliveryData);
 
-  let superOverData = deliveryData.reduce((acc, obj) => {
+  let superOverData = deliveryData.reduce((superOverData, obj) => {
     if (obj["is_super_over"] == "1") {
-      if (acc[obj.bowler] == undefined) {
-        acc[obj.bowler] = {};
+      if (superOverData[obj.bowler] == undefined) {
+        superOverData[obj.bowler] = {};
       }
-      if (!acc[obj.bowler]["runs"]) {
-        acc[obj.bowler]["runs"] = 0;
+      if (!superOverData[obj.bowler]["runs"]) {
+        superOverData[obj.bowler]["runs"] = 0;
       }
-      if (!acc[obj.bowler]["ball"]) {
-        acc[obj.bowler]["ball"] = 0;
+      if (!superOverData[obj.bowler]["ball"]) {
+        superOverData[obj.bowler]["ball"] = 0;
       }
-      acc[obj.bowler]["runs"] += parseInt(obj.total_runs);
+      superOverData[obj.bowler]["runs"] += parseInt(obj.total_runs);
 
       if (obj.wide_runs === "0" && obj.noball_runs === "0") {
-        acc[obj.bowler]["ball"]++;
+        superOverData[obj.bowler]["ball"]++;
       }
     }
-    return acc;
+    return superOverData;
   }, {});
 
   for (let key in superOverData) {
@@ -31,7 +31,7 @@ export let superOver = (matchPath, deliveryPath, outputPath) => {
   }
 
   let data = Object.entries(superOverData);
-  data.sort((a, b) => a[1] - b[1]);
+  data.sort((element1, element2) => element1[1] - element2[1]);
 
   data = data[0];
   let finalData = {};

@@ -7,7 +7,6 @@ export let extraRunsConcede = (matchPath, deliveryPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
 
-  let answer = {};
   matchData = matchData.filter((obj) => {
     return obj.season == "2016";
   });
@@ -16,14 +15,17 @@ export let extraRunsConcede = (matchPath, deliveryPath, outputPath) => {
   });
   const set = new Set(matchData);
 
-  deliveryData.map((obj) => {
-    if (set.has(obj.match_id)) {
-      if (answer[obj.bowling_team] == undefined) {
-        answer[obj.bowling_team] = 0;
+  let extraRuns = deliveryData.reduce((extraRuns, object) => {
+    if (set.has(object.match_id)) {
+      if (extraRuns[object.bowling_team] == undefined) {
+        extraRuns[object.bowling_team] = 0;
       }
-      answer[obj.bowling_team] += parseInt(obj.extra_runs);
+      extraRuns[object.bowling_team] =
+        extraRuns[object.bowling_team] + parseInt(object.extra_runs);
     }
-  });
-  console.log(answer);
-  fs.writeFileSync(outputPath, JSON.stringify(answer, null, 2));
+    return extraRuns;
+  }, {});
+  console.log(extraRuns);
+
+  fs.writeFileSync(outputPath, JSON.stringify(extraRuns, null, 2));
 };
