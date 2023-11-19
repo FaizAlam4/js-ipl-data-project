@@ -5,7 +5,7 @@ export let superOver = (matchPath, deliveryPath, outputPath) => {
   deliveryData = JSON.parse(deliveryData);
 
   let superOverData = deliveryData.reduce((superOverData, obj) => {
-    if (obj["is_super_over"] == "1") {
+    if (obj["is_super_over"] != "0") {
       if (superOverData[obj.bowler] == undefined) {
         superOverData[obj.bowler] = {};
       }
@@ -15,7 +15,11 @@ export let superOver = (matchPath, deliveryPath, outputPath) => {
       if (!superOverData[obj.bowler]["ball"]) {
         superOverData[obj.bowler]["ball"] = 0;
       }
-      superOverData[obj.bowler]["runs"] += parseInt(obj.total_runs);
+      superOverData[obj.bowler]["runs"] =
+        superOverData[obj.bowler]["runs"] +
+        parseInt(obj.total_runs) -
+        parseInt(obj.legbye_runs) -
+        parseInt(obj.bye_runs);
 
       if (obj.wide_runs === "0" && obj.noball_runs === "0") {
         superOverData[obj.bowler]["ball"]++;
