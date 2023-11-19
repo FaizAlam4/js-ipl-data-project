@@ -1,0 +1,86 @@
+import { highestDismissal } from "../server/highestDismissal";
+
+let sample1 = [
+  {
+    match_id: "68",
+    inning: "1",
+    batting_team: "Deccan Chargers",
+    bowling_team: "Rajasthan Royals",
+    over: "6",
+    ball: "2",
+    batsman: "A Symonds",
+    non_striker: "VVS Laxman",
+    bowler: "SR Watson",
+    is_super_over: "0",
+    wide_runs: "0",
+    bye_runs: "0",
+    legbye_runs: "0",
+    noball_runs: "0",
+    penalty_runs: "0",
+    batsman_runs: "4",
+    extra_runs: "0",
+    total_runs: "4",
+    player_dismissed: "",
+    dismissal_kind: "",
+    fielder: "",
+  },
+  {
+    match_id: "68",
+    inning: "1",
+    batting_team: "Deccan Chargers",
+    bowling_team: "Rajasthan Royals",
+    over: "6",
+    ball: "3",
+    batsman: "A Symonds",
+    non_striker: "VVS Laxman",
+    bowler: "SR Watson",
+    is_super_over: "0",
+    wide_runs: "0",
+    bye_runs: "0",
+    legbye_runs: "0",
+    noball_runs: "0",
+    penalty_runs: "0",
+    batsman_runs: "0",
+    extra_runs: "0",
+    total_runs: "0",
+    player_dismissed: "",
+    dismissal_kind: "",
+    fielder: "",
+  },
+  {
+    match_id: "68",
+    inning: "1",
+    batting_team: "Deccan Chargers",
+    bowling_team: "Rajasthan Royals",
+    over: "6",
+    ball: "4",
+    batsman: "A Symonds",
+    non_striker: "VVS Laxman",
+    bowler: "SR Watson",
+    is_super_over: "0",
+    wide_runs: "0",
+    bye_runs: "0",
+    legbye_runs: "0",
+    noball_runs: "0",
+    penalty_runs: "0",
+    batsman_runs: "0",
+    extra_runs: "0",
+    total_runs: "0",
+    player_dismissed: "",
+    dismissal_kind: "",
+    fielder: "",
+  },
+];
+// test("No player dismissed at all", () => {
+//   expect(highestDismissal([sample1])).toEqual({
+//     batsman: { name: "" },
+//     "dismissed by": { bowler: "", count: 0 },
+//   });
+// });
+
+test("Nothing passed at all", () => {
+    expect(highestDismissal([])).toEqual({
+      batsman: { name: "" },
+      "dismissed by": { bowler: "", count: 0 },
+    });
+  });
