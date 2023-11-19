@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export let matchesPerYear = (matchPath, deliveryPath, outputPath) => {
+export let matchesPerYear = (matchPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
 

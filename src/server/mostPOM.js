@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export let mostPOM = (matchPath, deliveryPath, outputPath) => {
+export let mostPOM = (matchPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
   let myResult = {};

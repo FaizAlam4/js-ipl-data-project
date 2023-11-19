@@ -1,7 +1,7 @@
 import { count } from "console";
 import fs from "fs";
 
-export const highestDismissal = (matchPath, deliveryPath, outputPath) => {
+export const highestDismissal = (deliveryPath, outputPath) => {
   let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
   deliveryData = JSON.parse(deliveryData);
 

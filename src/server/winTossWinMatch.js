@@ -1,6 +1,6 @@
 import fs from "fs";
 
-export let winTossWinMatch = (matchPath, deliveryPath, outputPath) => {
+export let winTossWinMatch = (matchPath, outputPath) => {
   let matchData = fs.readFileSync(matchPath, "utf-8");
   matchData = JSON.parse(matchData);
   let result = {};
