@@ -1,12 +1,4 @@
-import fs from "fs";
-
-export let economicalBowler = (matchPath, deliveryPath, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
-
+export let economicalBowler = (matchData, deliveryData) => {
   matchData = matchData.map((obj) => {
     if (obj.season == "2015") {
       return obj.id;
@@ -72,7 +64,5 @@ export let economicalBowler = (matchPath, deliveryPath, outputPath) => {
     }
   });
 
-  console.log(newResult2);
-  fs.writeFileSync(outputPath, JSON.stringify(newResult2, null, 2))
-
+  return newResult2;
 };

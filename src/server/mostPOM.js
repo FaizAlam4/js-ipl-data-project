@@ -1,8 +1,4 @@
-import fs from "fs";
-
-export let mostPOM = (matchPath, outputPath) => {
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
+export let mostPOM = (matchData) => {
   let myResult = {};
 
   myResult = matchData.reduce((myResult, object) => {
@@ -10,7 +6,7 @@ export let mostPOM = (matchPath, outputPath) => {
       myResult[object.season] = {};
     }
     if (myResult[object.season][object.player_of_match] == undefined) {
-      myResult[object.season][object.player_of_match] = 1;
+      myResult[object.season][object.player_of_match] = 0;
     }
     myResult[object.season][object.player_of_match]++;
 
@@ -27,12 +23,10 @@ export let mostPOM = (matchPath, outputPath) => {
     if (mostAwards[key] == undefined) {
       mostAwards[key] = {};
     }
-    if (mostAwards[key][myObject[0]] == undefined) {
-      mostAwards[key][myObject[0]] == 0;
+    if (mostAwards[key][myObject[0][0]] == undefined) {
+      mostAwards[key][myObject[0][0]] == 0;
     }
     mostAwards[key][myObject[0][0]] = myObject[0][1];
   }
-  console.log(mostAwards);
-
-  fs.writeFileSync(outputPath, JSON.stringify(mostAwards, null, 2));
+  return mostAwards;
 };

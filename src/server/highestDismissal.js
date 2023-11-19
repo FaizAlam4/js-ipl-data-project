@@ -1,12 +1,4 @@
-import { count } from "console";
-import fs from "fs";
-
-export const highestDismissal = (deliveryPath, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-
-  // let matchData = fs.readFileSync(matchPath, "utf-8");
-  // matchData = JSON.parse(matchData);
+export const highestDismissal = (deliveryData) => {
   let finalObject = {
     batsman: { name: "" },
     "dismissed by": { bowler: "", count: 0 },
@@ -40,7 +32,5 @@ export const highestDismissal = (deliveryPath, outputPath) => {
     return acc;
   }, {});
 
-  console.log(finalObject);
-
-  fs.writeFileSync(outputPath, JSON.stringify(finalObject, null, 2));
+  return finalObject;
 };

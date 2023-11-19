@@ -1,9 +1,4 @@
-import fs from "fs";
-
-export let matchesWinPerYear = (matchPath, outputPath) => {
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
-
+export let matchesWinPerYear = (matchData) => {
   let winMatches = matchData.reduce((winMatches, object) => {
     if (winMatches[object.winner] == undefined) {
       winMatches[object.winner] = {};
@@ -15,6 +10,6 @@ export let matchesWinPerYear = (matchPath, outputPath) => {
     winMatches[object.winner][object.season]++;
     return winMatches;
   }, {});
-  console.log(winMatches);
-  fs.writeFileSync(outputPath, JSON.stringify(winMatches, null, 2));
+
+  return winMatches;
 };

@@ -1,10 +1,6 @@
-import fs from "fs";
 
-export let strikeRate = (matchPath, deliveryPath, argument, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
+export let strikeRate = (matchData, deliveryData, argument) => {
+
 
   let batsmanId = matchData.reduce((batsmanId, object) => {
     if (batsmanId[object.season] == undefined) {
@@ -78,7 +74,5 @@ export let strikeRate = (matchPath, deliveryPath, argument, outputPath) => {
       answer[season][argument] = "Player didn't play this season!";
     }
   }
-  console.log(answer);
-
-  fs.writeFileSync(outputPath, JSON.stringify(answer, null, 2));
+  return answer;
 };

@@ -9,24 +9,69 @@ import { winTossWinMatch } from "./src/server/winTossWinMatch.js";
 import { highestDismissal } from "./src/server/highestDismissal.js";
 
 import pkg from "readline-sync";
+import fs from "fs";
 
 let matchFilePath = "./src/data/match.json";
 let deliveryFilePath = "./src/data/delivery.json";
 
-superOver(matchFilePath,deliveryFilePath,'./src/public/output/superOver.json');
-winTossWinMatch(matchFilePath,'./src/public/output/winTossWinMatch.json');
-mostPOM(matchFilePath,'./src/public/output/mostPOM.json');
-matchesWinPerYear(matchFilePath,'./src/public/output/matchesWinPerYear.json');
-matchesPerYear(matchFilePath,'./src/public/output/matchesPerYear.json');
-extraRunsConcede(matchFilePath,deliveryFilePath,'./src/public/output/extraRunsConcede.json');
-economicalBowler(matchFilePath,deliveryFilePath,'./src/public/output/economicalBowlers.json');
-highestDismissal(deliveryFilePath,'./src/public/output/highestDismissal.json');
+let matchData = fs.readFileSync(matchFilePath, "utf-8");
+matchData = JSON.parse(matchData);
+
+let deliveryData = fs.readFileSync(deliveryFilePath, "utf-8");
+deliveryData = JSON.parse(deliveryData);
+
+let data1 = superOver(deliveryData);
+fs.writeFileSync(
+  "./src/public/output/superOver.json",
+  JSON.stringify(data1, null, 2)
+);
+
+let data2 = winTossWinMatch(matchData);
+fs.writeFileSync(
+  "./src/public/output/winTossWinMatch.json",
+  JSON.stringify(data2, null, 2)
+);
+
+let data3 = mostPOM(matchData);
+fs.writeFileSync(
+  "./src/public/output/mostPOM.json",
+  JSON.stringify(data3, null, 2)
+);
+
+let data4 = matchesWinPerYear(matchData);
+fs.writeFileSync(
+  "./src/public/output/matchesWinPerYear.json",
+  JSON.stringify(data4, null, 2)
+);
+
+let data5 = matchesPerYear(matchData);
+fs.writeFileSync(
+  "./src/public/output/matchesPerYear.json",
+  JSON.stringify(data5, null, 2)
+);
+
+let data6 = extraRunsConcede(matchData, deliveryData);
+fs.writeFileSync(
+  "./src/public/output/extraRunsConcede.json",
+  JSON.stringify(data6, null, 2)
+);
+
+let data7 = economicalBowler(matchData, deliveryData);
+fs.writeFileSync(
+  "./src/public/output/economicalBowlers.json",
+  JSON.stringify(data7, null, 2)
+);
+
+let data8 = highestDismissal(deliveryData);
+fs.writeFileSync(
+  "./src/public/output/highestDismissal.json",
+  JSON.stringify(data8, null, 2)
+);
 
 // ---- Taking argument from console for strikeRate -----
 let batsmanName = pkg.question("Enter the batsman:");
-strikeRate(
-  matchFilePath,
-  deliveryFilePath,
-  batsmanName,
-  "./src/public/output/strikeRate.json"
+let data9 = strikeRate(matchData, deliveryData, batsmanName);
+fs.writeFileSync(
+  "./src/public/output/strikeRate.json",
+  JSON.stringify(data9, null, 2)
 );

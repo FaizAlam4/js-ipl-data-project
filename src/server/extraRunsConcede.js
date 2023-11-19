@@ -1,12 +1,4 @@
-import fs from "fs";
-
-export let extraRunsConcede = (matchPath, deliveryPath, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
-
+export let extraRunsConcede = (matchData, deliveryData) => {
   matchData = matchData.filter((obj) => {
     return obj.season == "2016";
   });
@@ -25,7 +17,6 @@ export let extraRunsConcede = (matchPath, deliveryPath, outputPath) => {
     }
     return extraRuns;
   }, {});
-  console.log(extraRuns);
 
-  fs.writeFileSync(outputPath, JSON.stringify(extraRuns, null, 2));
+  return extraRuns;
 };

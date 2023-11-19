@@ -1,8 +1,4 @@
-import fs from "fs";
-
-export let winTossWinMatch = (matchPath, outputPath) => {
-  let matchData = fs.readFileSync(matchPath, "utf-8");
-  matchData = JSON.parse(matchData);
+export let winTossWinMatch = (matchData) => {
   let result = {};
 
   result = matchData.reduce((accumulator, obj) => {
@@ -15,6 +11,5 @@ export let winTossWinMatch = (matchPath, outputPath) => {
     return accumulator;
   }, {});
 
-  console.log(result);
-  fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
+  return result;
 };

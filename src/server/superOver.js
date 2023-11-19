@@ -1,9 +1,4 @@
-import fs from "fs";
-
-export let superOver = (matchPath, deliveryPath, outputPath) => {
-  let deliveryData = fs.readFileSync(deliveryPath, "utf-8");
-  deliveryData = JSON.parse(deliveryData);
-
+export let superOver = (deliveryData) => {
   let superOverData = deliveryData.reduce((superOverData, obj) => {
     if (obj["is_super_over"] != "0") {
       if (superOverData[obj.bowler] == undefined) {
@@ -39,6 +34,11 @@ export let superOver = (matchPath, deliveryPath, outputPath) => {
 
   data = data[0];
   let finalData = {};
-  finalData[data[0]] = data[1];
-  fs.writeFileSync(outputPath, JSON.stringify(finalData, null, 2));
+  
+  if(data){
+
+    finalData[data[0]] = data[1];
+  }
+
+  return finalData;
 };
