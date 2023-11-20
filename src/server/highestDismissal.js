@@ -1,12 +1,12 @@
 export const highestDismissal = (deliveryData) => {
   let finalObject = {
     batsman: { name: "" },
-    "dismissed by": { bowler: "", count: 0 },
+    dismissed_by: { bowler: "", count: 0 },
   };
 
   let arr = {};
   arr = deliveryData.reduce((acc, obj) => {
-    if (obj.player_dismissed != "") {
+    if (obj.player_dismissed != "" && obj.dismissal_kind!="runout") {
       if (acc[obj.batsman] == undefined) {
         acc[obj.batsman] = {};
       }
@@ -18,11 +18,11 @@ export const highestDismissal = (deliveryData) => {
       acc[obj.batsman][obj.bowler]++;
 
       if (
-        acc[obj.batsman][obj.bowler] >= finalObject["dismissed by"]["count"]
+        acc[obj.batsman][obj.bowler] >= finalObject["dismissed_by"]["count"]
       ) {
-        finalObject["dismissed by"]["count"] = acc[obj.batsman][obj.bowler];
+        finalObject["dismissed_by"]["count"] = acc[obj.batsman][obj.bowler];
         finalObject["batsman"]["name"] = obj.batsman;
-        finalObject["dismissed by"]["bowler"] = obj.bowler;
+        finalObject["dismissed_by"]["bowler"] = obj.bowler;
       } else if (
         acc[obj.batsman][obj.bowler] == finalObject["dismissed by"]["count"]
       ) {
@@ -33,6 +33,7 @@ export const highestDismissal = (deliveryData) => {
 
     return acc;
   }, {});
+  console.log(arr);
 
   return finalObject;
 };
