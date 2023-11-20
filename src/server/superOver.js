@@ -34,9 +34,8 @@ export let superOver = (deliveryData) => {
 
   data = data[0];
   let finalData = {};
-  
-  if(data){
 
+  if (data) {
     finalData[data[0]] = data[1];
   }
 
