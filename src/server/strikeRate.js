@@ -1,7 +1,4 @@
-
 export let strikeRate = (matchData, deliveryData, argument) => {
-
-
   let batsmanId = matchData.reduce((batsmanId, object) => {
     if (batsmanId[object.season] == undefined) {
       batsmanId[object.season] = [];
@@ -22,15 +19,15 @@ export let strikeRate = (matchData, deliveryData, argument) => {
         if (accumulator[obj.batsman] == undefined) {
           accumulator[obj.batsman] = {};
         }
-        if (accumulator[obj.batsman]["runs"] == undefined) {
-          accumulator[obj.batsman]["runs"] = 0;
+        if (accumulator[obj.batsman]['runs'] == undefined) {
+          accumulator[obj.batsman]['runs'] = 0;
         }
-        if (accumulator[obj.batsman]["ballFaced"] == undefined) {
-          accumulator[obj.batsman]["ballFaced"] = 0;
+        if (accumulator[obj.batsman]['ballFaced'] == undefined) {
+          accumulator[obj.batsman]['ballFaced'] = 0;
         }
-        accumulator[obj.batsman]["runs"] += parseInt(obj.batsman_runs);
+        accumulator[obj.batsman]['runs'] += parseInt(obj.batsman_runs);
         if (obj.wide_runs == 0 && obj.noball_runs == 0) {
-          accumulator[obj.batsman]["ballFaced"]++;
+          accumulator[obj.batsman]['ballFaced']++;
         }
       }
 
@@ -46,8 +43,8 @@ export let strikeRate = (matchData, deliveryData, argument) => {
 
     for (let innerKey in accumulator) {
       accumulator[innerKey] =
-        (accumulator[innerKey]["runs"] * 100) /
-        accumulator[innerKey]["ballFaced"].toFixed(2);
+        (accumulator[innerKey]['runs'] * 100) /
+        accumulator[innerKey]['ballFaced'].toFixed(2);
     }
     myObject[key] = accumulator;
   }
@@ -60,7 +57,7 @@ export let strikeRate = (matchData, deliveryData, argument) => {
         answer[season] = {};
       }
       if (answer[season][argument] == undefined) {
-        answer[season][argument] = "";
+        answer[season][argument] = '';
       }
       answer[season][argument] = myObject[season][argument];
     } else {
@@ -68,7 +65,7 @@ export let strikeRate = (matchData, deliveryData, argument) => {
         answer[season] = {};
       }
       if (answer[season][argument] == undefined) {
-        answer[season][argument] = "";
+        answer[season][argument] = '';
       }
 
       answer[season][argument] = "Player didn't play this season!";

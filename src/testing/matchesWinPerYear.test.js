@@ -1,21 +1,21 @@
-import { matchesWinPerYear } from "../server/matchesWinPerYear.js";
+import { matchesWinPerYear } from '../server/matchesWinPerYear.js';
 
 let sample1 = [
-  { season: 2009, winner: "SRH" },
+  { season: 2009, winner: 'SRH' },
   {
     season: 2009,
-    winner: "CSK",
+    winner: 'CSK',
   },
   {
     season: 2009,
-    winner: "KKR",
+    winner: 'KKR',
   },
   {
     season: 2009,
-    winner: "KKR",
+    winner: 'KKR',
   },
 ];
-test("for one season data only", () => {
+test('for one season data only', () => {
   expect(matchesWinPerYear(sample1)).toEqual({
     SRH: {
       2009: 1,
@@ -30,27 +30,27 @@ test("for one season data only", () => {
 });
 
 let sample2 = [
-  { season: 2009, winner: "SRH" },
+  { season: 2009, winner: 'SRH' },
   {
     season: 2019,
-    winner: "SRH",
+    winner: 'SRH',
   },
   {
     season: 2020,
-    winner: "SRH",
+    winner: 'SRH',
   },
   {
     season: 2020,
-    winner: "SRH",
+    winner: 'SRH',
   },
 
   {
     season: 2021,
-    winner: "SRH",
+    winner: 'SRH',
   },
 ];
 
-test("for one team in different seasons", () => {
+test('for one team in different seasons', () => {
   expect(matchesWinPerYear(sample2)).toEqual({
     SRH: {
       2009: 1,
@@ -61,7 +61,7 @@ test("for one team in different seasons", () => {
   });
 });
 
-test("No data", () => {
+test('No data', () => {
   expect(matchesWinPerYear([])).toEqual({
     //gives empty object
   });

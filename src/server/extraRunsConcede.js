@@ -1,9 +1,9 @@
 export let extraRunsConcede = (matchData, deliveryData) => {
   matchData = matchData.filter((obj) => {
-    return obj.season == "2016";
+    return obj.season == '2016';
   });
   matchData = matchData.map((element) => {
-    return element["id"];
+    return element['id'];
   });
   const set = new Set(matchData);
 
